@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -7,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
-        #songs-save-form{
+        #songs-save-form {
             margin: 0 auto;
             width: 500px;
             height: 500px;
@@ -15,47 +16,67 @@
             border-radius: 10px;
             padding: 10px;
             text-align: center;
-            font-family: 'Gowun Dodum', sans-serif;
-            font-size: 20px;
         }
-        input{
-            width: 200px;
+
+        input {
+            width: 300px;
             height: 30px;
             border: 1px solid black;
             border-radius: 10px;
             padding: 10px;
-            font-family: 'Gowun Dodum', sans-serif;
-            font-size: 20px;
+            font-size: 16px;
+            margin: 8px auto;
         }
-        button{
+
+        button {
+            display: flex;
             width: 100px;
             height: 30px;
             border: 1px solid black;
             border-radius: 10px;
-            padding: 10px;
-            font-family: 'Gowun Dodum', sans-serif;
-            font-size: 20px;
+            padding: 12px;
+            margin: 8px auto;
             background-color: #000;
             color: #fff;
             cursor: pointer;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
+
 <body>
-<header>
-<th:block th:insert="~{/sub/header.html}"></th:block>
-</header>
-<section>
-    <h1> Index page </h1>
-    <div id="songs-save-form">
-        <input type="text" id="song-title" placeholder="곡 제목"/><br>
-        <input type="text" id="song-singer" placeholder="가수"/><br>
-        <button onclick=""> 등록 </button>
-    </div>
-</section>
+    <header>
+        <th:block th:insert="~{/sub/header.html}"></th:block>
+    </header>
+    <section>
+        <h1> Index page </h1>
+        <div id="songs-save-form">
+            <input type="text" id="song-title" placeholder="곡 제목" /><br>
+            <input type="text" id="song-singer" placeholder="가수" /><br>
+            <button type="button" onclick="saveSong()"> 등록 </button>
+            <div id="saveResult"></div>
+        </div>
+    </section>
 
-<script>
-
-</script>
+    <script>
+        function saveSong() {
+            var title_ = document.getElementById('song-title').value;
+            var singer_ = document.getElementById('song-singer').value;
+            console.log("!!!")
+            var data = {
+                'title' : title_,
+                'singer' : singer_
+            };
+            const xhttp = new XMLHttpRequest();
+            xhttp.setRequestHeader("Content-type", "application/Json");
+            xhttp.onload = function () {
+                document.getElementById("saveResult").innerHTML = this.responseText;
+            }
+            xhttp.open("POST", "/song-api/song", true);
+            xhttp.send(JSON.stringify( data ));
+        }
+    </script>
 </body>
+
 </html>
